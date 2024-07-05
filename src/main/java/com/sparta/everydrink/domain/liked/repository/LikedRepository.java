@@ -5,7 +5,9 @@ import com.sparta.everydrink.domain.liked.entity.Liked;
 import org.springframework.data.jpa.repository.JpaRepository;
 
 import java.util.Optional;
+import org.springframework.stereotype.Repository;
 
-public interface LikedRepository extends JpaRepository<Liked, Long> {
+@Repository
+public interface LikedRepository extends JpaRepository<Liked, Long>, LikedRepositoryCustom {
     Optional<Liked> findByUserIdAndContentsIdAndContentsType(Long user_id, Long contentsId, ContentsTypeEnum contentsType);
 }

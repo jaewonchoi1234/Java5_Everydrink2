@@ -3,6 +3,7 @@ package com.sparta.everydrink.domain.liked.entity;
 import com.sparta.everydrink.domain.common.TimeStampEntity;
 import com.sparta.everydrink.domain.user.entity.User;
 import jakarta.persistence.*;
+import java.time.LocalDateTime;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
@@ -24,6 +25,8 @@ public class Liked extends TimeStampEntity {
     @Enumerated(EnumType.STRING)
     @Column(name = "content_type", nullable = false)
     private ContentsTypeEnum contentsType;
+
+
 
     public Liked(User user, Long contentsId, ContentsTypeEnum contentsType) {
         this.user = user;

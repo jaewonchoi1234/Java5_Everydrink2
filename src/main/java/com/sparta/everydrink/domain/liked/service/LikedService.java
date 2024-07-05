@@ -1,5 +1,6 @@
 package com.sparta.everydrink.domain.liked.service;
 
+import com.sparta.everydrink.domain.comment.dto.CommentResponseDto;
 import com.sparta.everydrink.domain.comment.entity.Comment;
 import com.sparta.everydrink.domain.comment.repository.CommentRepository;
 import com.sparta.everydrink.domain.liked.dto.LikedRequestDto;
@@ -7,14 +8,18 @@ import com.sparta.everydrink.domain.liked.dto.LikedResponseDto;
 import com.sparta.everydrink.domain.liked.entity.ContentsTypeEnum;
 import com.sparta.everydrink.domain.liked.entity.Liked;
 import com.sparta.everydrink.domain.liked.repository.LikedRepository;
+import com.sparta.everydrink.domain.post.dto.PostResponseDto;
 import com.sparta.everydrink.domain.post.entity.Post;
 import com.sparta.everydrink.domain.post.repository.PostRepository;
 import com.sparta.everydrink.domain.user.entity.User;
 import com.sparta.everydrink.domain.user.repository.UserRepository;
 import com.sparta.everydrink.security.UserDetailsImpl;
 import jakarta.transaction.Transactional;
+import java.util.List;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import java.util.Optional;
@@ -89,4 +94,24 @@ public class LikedService {
 
         likedRepository.delete(existingLike);
     }
+
+    public List<PostResponseDto> getLikePosts(Long userId, int page, int size) {
+        Pageable pageable = PageRequest.of(page, size);
+
+        return likedRepository.getLikedPosts(userId,pageable)
+                .stream()
+                .map(post -> new PostResponseDto(post))
+                .toList();
+    }
+
+    public List<CommentResponseDto> getLikeComments(Long userId, int page, int size) {
+        Pageable pageable = PageRequest.of(page, size);
+
+        return likedRepository.getLikedComments(userId,pageable)
+                .stream()
+                .map(comment -> new CommentResponseDto(comment))
+                .toList();
+    }
+
+
 }
